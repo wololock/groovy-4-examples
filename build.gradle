@@ -1,0 +1,43 @@
+plugins {
+    id 'java'
+    id 'groovy'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        groovy {
+            srcDirs = ['examples']
+        }
+    }
+}
+
+dependencies {
+    implementation platform("org.apache.groovy:groovy-bom:$groovyVersion")
+
+    implementation "org.apache.groovy:groovy"
+    implementation "org.apache.groovy:groovy-typecheckers"
+    implementation "org.apache.groovy:groovy-macro"
+    implementation "org.apache.groovy:groovy-macro-library"
+    implementation "org.apache.groovy:groovy-contracts"
+    implementation "org.apache.groovy:groovy-ginq"
+    implementation "org.apache.groovy:groovy-json"
+    implementation "org.apache.groovy:groovy-toml"
+}
+
+tasks.register('runScript', JavaExec) {
+    dependsOn 'classes'
+
+    if (!project.hasProperty("mainClass")) {
+        throw new IllegalArgumentException("You need to specify the main class using -PmainClass=... command-line property")
+    }
+
+    println "> Running ${project.getProperty("mainClass")}.groovy script..."
+
+    main = project.getProperty("mainClass")
+    classpath = sourceSets.main.runtimeClasspath
+}
+
