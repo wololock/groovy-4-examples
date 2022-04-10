@@ -7,12 +7,22 @@ import groovy.transform.stc.POJO
 @CompileStatic
 class PojoPoint {
     int x, y
+
+    static void main(String[] args) {
+        PojoPoint point = new PojoPoint(1,1)
+        System.out.println(point.toString())
+    }
 }
 
 @Immutable
 @CompileStatic
 class NoPojoPoint {
     int x, y
+
+    static void main(String[] args) {
+        NoPojoPoint point = new NoPojoPoint(1,1)
+        System.out.println(point.toString())
+    }
 }
 
 def p1 = new PojoPoint(0, 0)
